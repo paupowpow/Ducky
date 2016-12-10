@@ -1,9 +1,11 @@
-package com.funk.paupowpow.ducky;
+package com.funk.paupowpow.ducky.fragments;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.funk.paupowpow.ducky.R;
 
 /**
  * Created by paulahaertel on 10.12.16.

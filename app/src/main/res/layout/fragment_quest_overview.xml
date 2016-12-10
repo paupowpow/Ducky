@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.funk.paupowpow.ducky.QuestOverviewFragment"
+    tools:context="com.funk.paupowpow.ducky.fragments.QuestOverviewFragment"
     android:background="@color/colorPrimaryLight">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" />
 
     <android.support.v7.widget.RecyclerView
@@ -19,6 +19,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        tools:listitem="@layout/fragment_quest_overview_item" />
+        tools:listitem="@layout/fragment_quest_overview_item"
+        android:background="@color/cardview_dark_background"/>
 
 </LinearLayout>
