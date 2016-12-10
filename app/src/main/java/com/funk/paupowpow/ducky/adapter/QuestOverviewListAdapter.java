@@ -45,6 +45,8 @@ public class QuestOverviewListAdapter extends RealmRecyclerViewAdapter<Quest> {
         // cast generic view holder to specific view holder
         final QuestOverviewItemViewHolder holder = (QuestOverviewItemViewHolder) viewHolder;
 
+        // the adapter telling the ViewHolder to do what it can do best,
+        // i.e. binding the quest data (retrieved by the adapter) to the corresponding view
         holder.bind(quest);
 
     }
