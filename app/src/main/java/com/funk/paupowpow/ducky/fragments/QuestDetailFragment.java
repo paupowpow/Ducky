@@ -37,7 +37,9 @@ public class QuestDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         Log.d("QuestDetailFragment", "onCreateView");
+
         View view = inflater.inflate(R.layout.fragment_quest_detail, container, false);
 
 //        ButterKnife.bind(this, view);

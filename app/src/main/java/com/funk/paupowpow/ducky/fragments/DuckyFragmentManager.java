@@ -34,19 +34,24 @@ public class DuckyFragmentManager {
     }
 
     private void safeCommitTransaction(FragmentTransaction transaction) {
-
         try {
             transaction.commit();
-        } catch( IllegalStateException e ) {
-            Log.e("DuckyFragmentManager", "Error in FragmentTransaction");
+        } catch(IllegalStateException e) {
+            Log.e("DuckyFragmentManager", "Error in FragmentTransaction: " + e.getMessage());
         }
     }
 
     public void startQuestOverviewFragment() {
         QuestOverviewFragment questOverviewFragment = QuestOverviewFragment.newInstance();
-        FragmentTransaction ft = manager.beginTransaction();
-        // instead of ft.commit(...)
-        ft.add(FRAGMENT_CONTAINER_ID, questOverviewFragment);
-        safeCommitTransaction(ft);
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questOverviewFragment);
+        safeCommitTransaction(fragmentTransaction);
+    }
+
+    public void startQuestDetailFragment() {
+        QuestDetailFragment questDetailFragment = QuestDetailFragment.newInstance();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questDetailFragment);
+        safeCommitTransaction(fragmentTransaction);
     }
 }
