@@ -1,5 +1,6 @@
 package com.funk.paupowpow.ducky.fragments;
 
+import android.graphics.Bitmap;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -45,13 +46,18 @@ public class DuckyFragmentManager {
         QuestOverviewFragment questOverviewFragment = QuestOverviewFragment.newInstance();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questOverviewFragment);
+        fragmentTransaction.addToBackStack(null);
+//        int count = manager.getBackStackEntryCount();
         safeCommitTransaction(fragmentTransaction);
     }
 
-    public void startQuestDetailFragment() {
-        QuestDetailFragment questDetailFragment = QuestDetailFragment.newInstance();
+    public void startQuestDetailFragment(Bitmap image) {
+        QuestDetailFragment questDetailFragment = QuestDetailFragment.newInstance(image);
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questDetailFragment);
+        fragmentTransaction.addToBackStack(null);
+//        int count = manager.getBackStackEntryCount();
         safeCommitTransaction(fragmentTransaction);
     }
+
 }
