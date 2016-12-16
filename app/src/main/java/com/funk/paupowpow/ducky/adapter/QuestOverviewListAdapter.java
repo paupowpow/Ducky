@@ -53,7 +53,6 @@ public class QuestOverviewListAdapter extends RealmRecyclerViewAdapter<Quest> {
     @Override
     public int getItemCount() {
         if (getRealmAdapter() != null) {
-            Log.d("QUEST COUNT", "" + getRealmAdapter().getCount());
             return getRealmAdapter().getCount();
         }
         return 0;
