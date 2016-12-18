@@ -63,4 +63,56 @@ public class DuckyDatabaseHandler {
     public RealmResults<Quest> getQuests() {
         return myRealm.where(Quest.class).findAll();
     }
+
+
+
+    public File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        Log.d("HEY createImageFile", storageDir.toString());
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    public void createQuestPicture(Quest quest, String uri) {
+        myRealm.beginTransaction();
+        QuestPicture questPicture = myRealm.createObject(QuestPicture.class);
+        questPicture.setQuest(quest);
+        questPicture.setQuestPictureUri(uri);
+        questPicture.setQuestPictureId(System.currentTimeMillis());
+        myRealm.commitTransaction();
+    }
+
+    public Bitmap getQuestPicture(Quest quest) {
+        RealmResults<QuestPicture> result = myRealm.where(QuestPicture.class)
+                .equalTo("quest.questId", quest.getQuestId())
+                .findAll();
+
+
+        Uri myUri = Uri.parse(result.first().getQuestPictureUriString());
+
+        File imgFile = new File(myUri.getPath());
+
+        Log.d("HEY2", myUri.getPath());
+
+        if(imgFile.exists()) {
+            Log.d("HEY", "i exist");
+        }
+
+        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+        return myBitmap;
+
+    }
+
 }
