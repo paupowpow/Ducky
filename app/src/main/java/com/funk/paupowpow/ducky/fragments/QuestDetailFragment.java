@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.funk.paupowpow.ducky.R;
 import com.funk.paupowpow.ducky.controller.QuestDetailImageViewController;
+import com.funk.paupowpow.ducky.model.data.Quest;
 
 public class QuestDetailFragment extends Fragment {
 
@@ -20,8 +21,8 @@ public class QuestDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static QuestDetailFragment newInstance(Bitmap image) {
-        viewController = new QuestDetailImageViewController(image);
+    public static QuestDetailFragment newInstance(Quest quest) {
+        viewController = new QuestDetailImageViewController(quest);
         QuestDetailFragment fragment = new QuestDetailFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

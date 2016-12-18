@@ -1,12 +1,12 @@
 package com.funk.paupowpow.ducky.fragments;
 
-import android.graphics.Bitmap;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.funk.paupowpow.ducky.R;
+import com.funk.paupowpow.ducky.model.data.Quest;
 
 /**
  * Created by paulahaertel on 10.12.16.
@@ -51,8 +51,8 @@ public class DuckyFragmentManager {
         safeCommitTransaction(fragmentTransaction);
     }
 
-    public void startQuestDetailFragment(Bitmap image) {
-        QuestDetailFragment questDetailFragment = QuestDetailFragment.newInstance(image);
+    public void startQuestDetailFragment(Quest quest) {
+        QuestDetailFragment questDetailFragment = QuestDetailFragment.newInstance(quest);
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questDetailFragment);
         fragmentTransaction.addToBackStack(null);
