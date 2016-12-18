@@ -9,6 +9,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import io.realm.Realm;
@@ -70,7 +71,9 @@ public class DuckyDatabaseHandler {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
 
-//        String[] files = activity.fileList();
+        String[] files = activity.fileList();
+
+        Log.d("files" , Arrays.toString(files));
 
         File storageDir = activity.getFilesDir();
         File image = File.createTempFile(
