@@ -1,14 +1,12 @@
 package com.funk.paupowpow.ducky.controller;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.funk.paupowpow.ducky.R;
+import com.funk.paupowpow.ducky.camera.CameraHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
 
 import butterknife.Bind;
@@ -40,19 +38,14 @@ public class QuestOverviewItemViewController {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bindData(Quest quest) {
-        this.quest = quest;
+    public void bindData(Quest aQuest) {
+        this.quest = aQuest;
         this.questText.setText(quest.getQuestText());
-
-        Log.d("QUEST", "" + quest.getQuestText());
 
         snapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
-                    activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
+                CameraHandler.getInstance().openCamera(quest);
             }
         });
     }
