@@ -40,7 +40,8 @@ public class QuestDetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_quest_detail, container, false);
 
-        Bitmap image = viewController.getImage();
+        Bitmap image = viewController.getQuestPicture();
+
         ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
         imageView.setImageBitmap(image);
 

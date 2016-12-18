@@ -59,4 +59,5 @@ public class QuestOverviewItemViewController {
 
     public void onViewDetachedFromWindow() {
     }
+
 }
