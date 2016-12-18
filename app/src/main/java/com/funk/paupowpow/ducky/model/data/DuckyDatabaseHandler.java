@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,14 +68,13 @@ public class DuckyDatabaseHandler {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        File storageDir = activity.getFilesDir();
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
-        Log.d("HEY createImageFile", storageDir.toString());
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
@@ -98,18 +95,11 @@ public class DuckyDatabaseHandler {
                 .equalTo("quest.questId", quest.getQuestId())
                 .findAll();
 
-
         Uri myUri = Uri.parse(result.first().getQuestPictureUriString());
 
         File imgFile = new File(myUri.getPath());
 
-        Log.d("HEY2", myUri.getPath());
-
-        if(imgFile.exists()) {
-            Log.d("HEY", "i exist");
-        }
-
-        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath().toString());
 
         return myBitmap;
 

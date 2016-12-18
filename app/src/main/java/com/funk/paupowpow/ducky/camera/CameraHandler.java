@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
@@ -72,7 +71,6 @@ public class CameraHandler {
     public Quest handleResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             DuckyDatabaseHandler.getInstance().createQuestPicture(this.quest, this.uri.toString());
-            Log.d("HEY", this.uri.toString());
             return quest;
         } else {
             return null;
