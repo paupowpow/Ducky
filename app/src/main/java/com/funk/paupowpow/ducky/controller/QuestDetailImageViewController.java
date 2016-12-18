@@ -2,23 +2,23 @@ package com.funk.paupowpow.ducky.controller;
 
 import android.graphics.Bitmap;
 
+import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
+import com.funk.paupowpow.ducky.model.data.Quest;
+
 /**
  * Created by paulahaertel on 16.12.16.
  */
 
 public class QuestDetailImageViewController {
 
-    private Bitmap image;
+    protected Quest quest;
 
-    public QuestDetailImageViewController(Bitmap image) {
-        this.image = image;
+    public QuestDetailImageViewController(Quest quest) {
+        this.quest = quest;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public Bitmap getQuestPicture() {
+        return DuckyDatabaseHandler.getInstance().getQuestPicture(quest);
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
 }
