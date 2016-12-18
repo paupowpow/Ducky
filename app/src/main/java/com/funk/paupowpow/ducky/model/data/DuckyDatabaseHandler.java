@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +70,8 @@ public class DuckyDatabaseHandler {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
 
+//        String[] files = activity.fileList();
+
         File storageDir = activity.getFilesDir();
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -95,11 +98,25 @@ public class DuckyDatabaseHandler {
                 .equalTo("quest.questId", quest.getQuestId())
                 .findAll();
 
-        Uri myUri = Uri.parse(result.first().getQuestPictureUriString());
+        Log.d("result.toString", result.toString());
+
+        String questPictureUriString = result.first().getQuestPictureUriString();
+
+        Log.d("pic uri string", questPictureUriString);
+
+        Uri myUri = Uri.parse(questPictureUriString);
+
+        Log.d("myUri", myUri.toString());
+
 
         File imgFile = new File(myUri.getPath());
+        Log.d("img file abs path" , imgFile.getAbsolutePath().toString());
+        Log.d("img file path" , imgFile.getPath().toString());
 
         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath().toString());
+
+        Log.d("imgFile", imgFile.toString());
+
 
         return myBitmap;
 
