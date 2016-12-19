@@ -56,8 +56,9 @@ public class DuckyDatabaseHandler {
     public void createQuest(String questText) {
         myRealm.beginTransaction();
         Quest quest = myRealm.createObject(Quest.class);
-        quest.setQuestId(System.currentTimeMillis());
+        quest.setQuestId(generateQuestId());
         quest.setQuestText(questText);
+        quest.setCompleted(false);
         myRealm.commitTransaction();
     }
 
@@ -125,6 +126,11 @@ public class DuckyDatabaseHandler {
         Bitmap myBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), myUri);
 
         return myBitmap;
+    }
 
+    private String generateQuestId() {
+        String uuidString = UUID.randomUUID().toString();
+        String timeString = String.valueOf(System.currentTimeMillis());
+        return uuidString + "_" + timeString;
     }
 }
