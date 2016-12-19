@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
 
-import java.io.File;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
@@ -19,6 +18,8 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class CameraHandler {
+
+    private static final String TAG = "CameraHandler";
 
     private static CameraHandler instance;
     private static Activity activity;
@@ -51,52 +52,28 @@ public class CameraHandler {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         this.quest = quest;
-        // prepare a URI and give to external camera activity
-        File imageFile = null;
 
         try {
-            imageFile = DuckyDatabaseHandler.getInstance().createImageFile();
+            this.uri = DuckyDatabaseHandler.getInstance().createImageFileUri();
         } catch (IOException ex) {
             //Error
         }
 
-        if  ((takePictureIntent.resolveActivity(activity.getPackageManager()) != null) &&
-                (imageFile != null)) {
-            this.uri = FileProvider.getUriForFile(activity.getApplicationContext(), "com.funk.paupowpow.ducky", imageFile);
+        if  (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+            Log.d(TAG, this.uri.getPath());
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, this.uri);
             activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+
     }
 
     public Quest handleResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Log.d(TAG, this.uri.getPath());
             DuckyDatabaseHandler.getInstance().createQuestPicture(this.quest, this.uri.toString());
             return quest;
         } else {
             return null;
         }
     }
-
-//    private boolean saveImageToFile(File file) {
-//        if (!file.exists()) {
-//            try {
-//                file.createNewFile();
-//                return true;
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//                return false;
-//            }
-//        } else {
-//            file.delete();
-//            try {
-//                file.createNewFile();
-//                return true;
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//                return false;
-//            }
-//    }
-
 }

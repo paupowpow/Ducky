@@ -2,8 +2,9 @@ package com.funk.paupowpow.ducky.model.data;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+
 /**
  * Created by paulahaertel on 10.12.16.
  */
@@ -66,7 +68,7 @@ public class DuckyDatabaseHandler {
 
 
 
-    public File createImageFile() throws IOException {
+    public Uri createImageFileUri() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -76,15 +78,25 @@ public class DuckyDatabaseHandler {
         Log.d("files" , Arrays.toString(files));
 
         File storageDir = activity.getFilesDir();
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
+        Log.d("storage directory", "" + storageDir.getPath());
+
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+
+        File image = new File(
+                storageDir.getPath() +
+                File.separator + "ducky_" +
+                timeStamp + ".jpg");
+
+        Uri uri = FileProvider.getUriForFile(activity.getApplicationContext(), "com.funk.paupowpow.ducky", image);
+
+        Log.d("URIIIII", "" + uri);
+
+        return uri;
     }
 
     public void createQuestPicture(Quest quest, String uri) {
@@ -96,7 +108,7 @@ public class DuckyDatabaseHandler {
         myRealm.commitTransaction();
     }
 
-    public Bitmap getQuestPicture(Quest quest) {
+    public Bitmap getQuestPicture(Quest quest) throws IOException {
         RealmResults<QuestPicture> result = myRealm.where(QuestPicture.class)
                 .equalTo("quest.questId", quest.getQuestId())
                 .findAll();
@@ -111,15 +123,13 @@ public class DuckyDatabaseHandler {
 
         Log.d("myUri", myUri.toString());
 
+//        File imgFile = new File(myUri.getPath());
+//        Log.d("img file abs path" , imgFile.getAbsolutePath().toString());
+//        Log.d("img file path" , imgFile.getPath().toString());
 
-        File imgFile = new File(myUri.getPath());
-        Log.d("img file abs path" , imgFile.getAbsolutePath().toString());
-        Log.d("img file path" , imgFile.getPath().toString());
+//        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath().toString());
 
-        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath().toString());
-
-        Log.d("imgFile", imgFile.toString());
-
+        Bitmap myBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), myUri);
 
         return myBitmap;
 

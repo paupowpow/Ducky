@@ -13,6 +13,8 @@ import com.funk.paupowpow.ducky.R;
 import com.funk.paupowpow.ducky.controller.QuestDetailImageViewController;
 import com.funk.paupowpow.ducky.model.data.Quest;
 
+import java.io.IOException;
+
 public class QuestDetailFragment extends Fragment {
 
     private static QuestDetailImageViewController viewController;
@@ -40,7 +42,12 @@ public class QuestDetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_quest_detail, container, false);
 
-        Bitmap image = viewController.getQuestPicture();
+        Bitmap image = null;
+        try {
+            image = viewController.getQuestPicture();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
         imageView.setImageBitmap(image);
