@@ -24,8 +24,6 @@ import io.realm.RealmResults;
 public class DuckyDatabaseHandler {
     Realm myRealm;
 
-    String mCurrentPhotoPath;
-
     private static DuckyDatabaseHandler instance;
     private static Activity activity;
 
@@ -69,23 +67,14 @@ public class DuckyDatabaseHandler {
 
 
     public Uri createImageFileUri() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
 
         String[] files = activity.fileList();
-
         Log.d("files" , Arrays.toString(files));
 
         File storageDir = activity.getFilesDir();
-
         Log.d("storage directory", "" + storageDir.getPath());
 
-//        File image = File.createTempFile(
-//                imageFileName,  /* prefix */
-//                ".jpg",         /* suffix */
-//                storageDir      /* directory */
-//        );
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
         File image = new File(
                 storageDir.getPath() +
@@ -93,8 +82,7 @@ public class DuckyDatabaseHandler {
                 timeStamp + ".jpg");
 
         Uri uri = FileProvider.getUriForFile(activity.getApplicationContext(), "com.funk.paupowpow.ducky", image);
-
-        Log.d("URIIIII", "" + uri);
+        Log.d("URI", "" + uri);
 
         return uri;
     }
@@ -112,23 +100,15 @@ public class DuckyDatabaseHandler {
         RealmResults<QuestPicture> result = myRealm.where(QuestPicture.class)
                 .equalTo("quest.questId", quest.getQuestId())
                 .findAll();
-
         Log.d("result.toString", result.toString());
 
         String questPictureUriString = result.first().getQuestPictureUriString();
-
         Log.d("pic uri string", questPictureUriString);
 
         Uri myUri = Uri.parse(questPictureUriString);
-
         Log.d("myUri", myUri.toString());
 
-//        File imgFile = new File(myUri.getPath());
-//        Log.d("img file abs path" , imgFile.getAbsolutePath().toString());
-//        Log.d("img file path" , imgFile.getPath().toString());
-
 //        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath().toString());
-
         Bitmap myBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), myUri);
 
         return myBitmap;
