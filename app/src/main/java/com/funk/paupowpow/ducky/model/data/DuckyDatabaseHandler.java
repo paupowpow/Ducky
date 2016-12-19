@@ -64,8 +64,6 @@ public class DuckyDatabaseHandler {
         return myRealm.where(Quest.class).findAll();
     }
 
-
-
     public Uri createImageFileUri() throws IOException {
 
         String[] files = activity.fileList();
@@ -114,5 +112,4 @@ public class DuckyDatabaseHandler {
         return myBitmap;
 
     }
-
 }
