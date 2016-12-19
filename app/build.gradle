@@ -5,7 +5,7 @@ def libs = rootProject.ext.libraries
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.funk.paupowpow.ducky"
         minSdkVersion 16
