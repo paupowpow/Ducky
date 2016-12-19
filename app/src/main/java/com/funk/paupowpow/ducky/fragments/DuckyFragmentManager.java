@@ -60,4 +60,19 @@ public class DuckyFragmentManager {
         safeCommitTransaction(fragmentTransaction);
     }
 
+    public void startQuestCreateFragment() {
+        QuestCreateFragment questCreateFragment = QuestCreateFragment.newInstance();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questCreateFragment);
+        fragmentTransaction.addToBackStack(null);
+        int count = manager.getBackStackEntryCount();
+        Log.d("HEY", String.valueOf(count));
+        safeCommitTransaction(fragmentTransaction);
+    }
+
+    public void popFragment() {
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        fragmentManager.popBackStack();
+    }
+
 }

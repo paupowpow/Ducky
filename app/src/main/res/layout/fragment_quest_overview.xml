@@ -12,6 +12,12 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" />
 
+    <Button
+        android:id="@+id/quest_create_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_create"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/quest_list"
         android:layout_width="match_parent"
