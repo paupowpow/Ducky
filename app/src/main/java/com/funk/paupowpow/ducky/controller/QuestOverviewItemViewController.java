@@ -28,6 +28,9 @@ public class QuestOverviewItemViewController {
     @Bind(R.id.quest_overview_item_text)
     TextView questText;
 
+    @Bind(R.id.quest_overview_item_status)
+    TextView questStatus;
+
     @Bind(R.id.quest_overview_item_button)
     Button snapButton;
 
@@ -39,15 +42,24 @@ public class QuestOverviewItemViewController {
     }
 
     public void bindData(Quest aQuest) {
-        this.quest = aQuest;
-        this.questText.setText(quest.getQuestText());
+        quest = aQuest;
+        questText.setText(quest.getQuestText());
 
-        snapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CameraHandler.getInstance().openCamera(quest);
-            }
-        });
+        questStatus.setText(quest.getCompleted().toString());
+
+//        quest completed -> disable button
+//        quest not completed -> set onClickListener
+        if(quest.getCompleted() == true) {
+            snapButton.setEnabled(false);
+        } else {
+            snapButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CameraHandler.getInstance().openCamera(quest);
+                }
+            });
+        }
+
     }
 
     public void onViewRecycled() {

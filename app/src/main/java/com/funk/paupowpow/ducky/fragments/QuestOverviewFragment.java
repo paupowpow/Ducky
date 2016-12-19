@@ -68,6 +68,12 @@ public class QuestOverviewFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
     private void setupRecycler() {
         questList.setHasFixedSize(true);
 
