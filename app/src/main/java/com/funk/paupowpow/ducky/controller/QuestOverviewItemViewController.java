@@ -21,10 +21,6 @@ public class QuestOverviewItemViewController {
     private Activity activity;
     private Quest quest;
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    String mCurrentPhotoPath;
-
-
     @Bind(R.id.quest_overview_item_text)
     TextView questText;
 
@@ -59,7 +55,6 @@ public class QuestOverviewItemViewController {
                 }
             });
         }
-
     }
 
     public void onViewRecycled() {

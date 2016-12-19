@@ -48,13 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkPermissions() {
         pm.requestPermissions(
-                new String[] {
-                        Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                DuckyConstants.PERMISSION_REQUEST_CODE_CAMERA |
-                        DuckyConstants.PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+            new String[] {
+                Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+            DuckyConstants.PERMISSION_REQUEST_CODE_CAMERA |
+                DuckyConstants.PERMISSION_REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
     }
-
-
-
-
 }
