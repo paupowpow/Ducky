@@ -70,7 +70,7 @@ public class CameraHandler {
     public Quest handleResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Log.d(TAG, this.uri.getPath());
-            DuckyDatabaseHandler.getInstance().createQuestPicture(this.quest, this.uri.toString());
+            DuckyDatabaseHandler.getInstance().updateQuest(this.quest, this.uri.toString());
             return quest;
         } else {
             return null;

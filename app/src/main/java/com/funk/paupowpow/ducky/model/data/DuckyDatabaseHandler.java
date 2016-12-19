@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -85,12 +86,26 @@ public class DuckyDatabaseHandler {
         return uri;
     }
 
+    public void updateQuest(Quest quest, String uri) {
+        createQuestPicture(quest, uri);
+        setQuestCompleted(quest);
+    }
+
     public void createQuestPicture(Quest quest, String uri) {
         myRealm.beginTransaction();
         QuestPicture questPicture = myRealm.createObject(QuestPicture.class);
         questPicture.setQuest(quest);
         questPicture.setQuestPictureUri(uri);
         questPicture.setQuestPictureId(System.currentTimeMillis());
+        myRealm.commitTransaction();
+    }
+
+    public void setQuestCompleted(Quest quest) {
+        RealmResults<Quest> result = myRealm.where(Quest.class)
+                .equalTo("questId", quest.getQuestId())
+                .findAll();
+        myRealm.beginTransaction();
+        result.first().setCompleted(true);
         myRealm.commitTransaction();
     }
 
