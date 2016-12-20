@@ -2,10 +2,12 @@ package com.funk.paupowpow.ducky.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -67,8 +69,16 @@ public class QuestCreateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 controller.createQuest(inputQuestText.getText().toString());
+                closeKeyboard(getActivity(), inputQuestText.getWindowToken());
                 DuckyFragmentManager.getInstance().popFragment();
             }
         });
     }
+
+    public static void closeKeyboard(Context c, IBinder windowToken) {
+        InputMethodManager inputMethodManager = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(windowToken, 0);
+    }
+
+
 }
