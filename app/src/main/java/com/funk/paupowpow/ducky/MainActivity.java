@@ -9,7 +9,6 @@ import com.funk.paupowpow.ducky.camera.CameraHandler;
 import com.funk.paupowpow.ducky.fragments.DuckyFragmentManager;
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
-import com.funk.paupowpow.ducky.onboarding.Onboarding;
 import com.funk.paupowpow.ducky.utils.DuckyConstants;
 import com.funk.paupowpow.ducky.utils.PermissionManager;
 
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         DuckyFragmentManager.getInstance().startQuestOverviewFragment();
 
         DuckyDatabaseHandler.initialize(this);
-        Onboarding.createOnboardingQuest();
+//        Onboarding.createOnboardingQuest();
 
         CameraHandler.initialize(this);
 
