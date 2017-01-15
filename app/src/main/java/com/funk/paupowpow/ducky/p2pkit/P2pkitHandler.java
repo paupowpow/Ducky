@@ -2,8 +2,11 @@ package com.funk.paupowpow.ducky.p2pkit;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.funk.paupowpow.ducky.config.DuckyConfigs;
+import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
+import com.funk.paupowpow.ducky.model.data.Quest;
 
 import java.io.UnsupportedEncodingException;
 
@@ -11,7 +14,9 @@ import ch.uepaa.p2pkit.P2PKitClient;
 import ch.uepaa.p2pkit.P2PKitStatusCallback;
 import ch.uepaa.p2pkit.StatusResult;
 import ch.uepaa.p2pkit.StatusResultHandling;
+import ch.uepaa.p2pkit.discovery.InfoTooLongException;
 import ch.uepaa.p2pkit.discovery.P2PListener;
+import io.realm.RealmResults;
 
 
 /**
@@ -96,11 +101,15 @@ public class P2pkitHandler {
         public void onPeerDiscovered(ch.uepaa.p2pkit.discovery.entity.Peer peer) {
             Log.d(TAG, "onPeerDiscovered: " + peer.getNodeId());
 //            Log.d(TAG, "with info: " + new String(peer.getDiscoveryInfo()));
+            showToast("Peer discovered");
+            transferQuest();
+            showToast(new String(peer.getDiscoveryInfo()));
         }
 
         @Override
         public void onPeerLost(ch.uepaa.p2pkit.discovery.entity.Peer peer) {
             Log.d(TAG, "onPeerLost: " + peer.getNodeId());
+            showToast("Peer lost");
         }
 
         @Override
@@ -117,6 +126,19 @@ public class P2pkitHandler {
     public void startP2pDiscovery() {
         Log.d(TAG, "startP2pDiscovery()");
 
+        P2PKitClient.getInstance(activity)
+                .getDiscoveryServices()
+                .addP2pListener(mP2pDiscoveryListener);
+    }
+
+    public void stopP2pDiscovery() {
+        Log.d(TAG, "stopP2pDiscovery()");
+        P2PKitClient.getInstance(activity)
+                .getDiscoveryServices()
+                .removeP2pListener(mP2pDiscoveryListener);
+    }
+
+    private void tryEncoding() {
         String questName = "quest name";
         String original = new String("A" + "\u00ea" + "\u00f1" + "\u00fc" + "C");
 
@@ -133,24 +155,45 @@ public class P2pkitHandler {
         } catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
-
-        P2PKitClient.getInstance(activity)
-                .getDiscoveryServices()
-                .addP2pListener(mP2pDiscoveryListener);
     }
 
-    public static void printBytes(byte[] array, String name) {
+    private void printBytes(byte[] array, String name) {
         for (int k = 0; k < array.length; k++) {
             Log.d(TAG, name + "[" + k + "] = " + "0x" +
-                UnicodeFormatter.byteToHex(array[k]));
+                    UnicodeFormatter.byteToHex(array[k]));
         }
     }
 
-    public void stopP2pDiscovery() {
-        Log.d(TAG, "stopP2pDiscovery()");
-        P2PKitClient.getInstance(activity)
-                .getDiscoveryServices()
-                .removeP2pListener(mP2pDiscoveryListener);
+    private void showToast(String text) {
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(activity, text, duration);
+        toast.show();
+    }
+
+    private void transferQuest() {
+        DuckyDatabaseHandler dbh = DuckyDatabaseHandler.getInstance();
+        RealmResults<Quest> results = dbh.getQuests();
+        Log.d(TAG, results.toString()   );
+        if(!results.isEmpty()) {
+            String questText = results.first().getQuestText();
+            try {
+                byte[] questBytes = questText.getBytes("UTF8");
+                printBytes(questBytes, "utf8Bytes");
+                //transfer
+                publishP2pDiscoveryInfo(questBytes);
+            } catch (UnsupportedEncodingException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void publishP2pDiscoveryInfo(byte[] data) {
+        Logger.i("P2PKitClient", "Publish discovery info");
+        try {
+            P2PKitClient.getInstance(activity).getDiscoveryServices().setP2pDiscoveryInfo(data);
+        } catch (InfoTooLongException e) {
+            Logger.e("P2PKitClient", "The discovery info is too long: " + ((data != null) ? data.length : "null") + " bytes");
+        }
     }
 
 }
