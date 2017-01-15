@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.funk.paupowpow.ducky.config.DuckyConfigs;
 
+import java.io.UnsupportedEncodingException;
+
 import ch.uepaa.p2pkit.P2PKitClient;
 import ch.uepaa.p2pkit.P2PKitStatusCallback;
 import ch.uepaa.p2pkit.StatusResult;
@@ -114,9 +116,34 @@ public class P2pkitHandler {
 
     public void startP2pDiscovery() {
         Log.d(TAG, "startP2pDiscovery()");
+
+        String questName = "quest name";
+        String original = new String("A" + "\u00ea" + "\u00f1" + "\u00fc" + "C");
+
+        try {
+            byte[] utf8Bytes = original.getBytes("UTF8");
+            byte[] defaultBytes = original.getBytes();
+
+            String roundTrip = new String(utf8Bytes, "UTF8");
+
+            Log.d(TAG, "roundTrip = " + roundTrip);
+            printBytes(utf8Bytes, "utf8Bytes");
+            printBytes(defaultBytes, "defaultBytes");
+
+        } catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
         P2PKitClient.getInstance(activity)
                 .getDiscoveryServices()
                 .addP2pListener(mP2pDiscoveryListener);
+    }
+
+    public static void printBytes(byte[] array, String name) {
+        for (int k = 0; k < array.length; k++) {
+            Log.d(TAG, name + "[" + k + "] = " + "0x" +
+                UnicodeFormatter.byteToHex(array[k]));
+        }
     }
 
     public void stopP2pDiscovery() {
@@ -125,4 +152,5 @@ public class P2pkitHandler {
                 .getDiscoveryServices()
                 .removeP2pListener(mP2pDiscoveryListener);
     }
+
 }
