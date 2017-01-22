@@ -174,7 +174,7 @@ public class DuckyDatabaseHandler {
                 questId = questInfo.substring(questIdStart, questInfo.length() - 1);
             }
 
-            if (getQuest(questText).isEmpty()){
+            if(getQuest(questId).isEmpty()) {
                 if(questId == "") {
                     createQuest(questText, null);
                 } else {
