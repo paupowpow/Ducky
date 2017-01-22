@@ -40,7 +40,6 @@ public class CameraHandler {
     public static void initialize(Activity activity) {
         if(instance == null) {
             instance = new CameraHandler(activity);
-
         }
     }
 

@@ -9,6 +9,7 @@ import com.funk.paupowpow.ducky.camera.CameraHandler;
 import com.funk.paupowpow.ducky.fragments.DuckyFragmentManager;
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
+import com.funk.paupowpow.ducky.p2pkit.P2pkitHandler;
 import com.funk.paupowpow.ducky.utils.DuckyConstants;
 import com.funk.paupowpow.ducky.utils.PermissionManager;
 
@@ -29,8 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
         CameraHandler.initialize(this);
 
-        pm = new PermissionManager(this);
+        P2pkitHandler.initialize(this);
 
+        P2pkitHandler.getInstance().enableKit();
+
+        pm = new PermissionManager(this);
         checkPermissions();
     }
 

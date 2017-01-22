@@ -38,4 +38,8 @@ public class Quest extends RealmObject {
     public void setQuestId(String questId) {
         this.questId = questId;
     }
+
+    public String getQuestInfo() {
+        return questText + "!@#$" + questId;
+    }
 }
