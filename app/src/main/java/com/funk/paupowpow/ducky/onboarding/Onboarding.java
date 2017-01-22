@@ -9,7 +9,7 @@ import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 public class Onboarding {
 
     public static void createOnboardingQuest() {
-        DuckyDatabaseHandler.getInstance().createQuest("create a picture of your d*ck");
+        DuckyDatabaseHandler.getInstance().createQuest("create a picture", null);
     }
 
 }

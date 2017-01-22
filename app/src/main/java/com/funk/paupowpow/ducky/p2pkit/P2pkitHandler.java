@@ -48,10 +48,14 @@ public class P2pkitHandler {
 
 
     public void enableKit() {
+
         final StatusResult result = P2PKitClient.isP2PServicesAvailable(activity);
+
         if (result.getStatusCode() == StatusResult.SUCCESS) {
+
             P2PKitClient client = P2PKitClient.getInstance(activity);
             client.enableP2PKit(mStatusCallback, APP_KEY);
+
         } else {
             StatusResultHandling.showAlertDialogForStatusError(activity, result);
         }
@@ -101,9 +105,10 @@ public class P2pkitHandler {
         public void onPeerDiscovered(ch.uepaa.p2pkit.discovery.entity.Peer peer) {
             Log.d(TAG, "onPeerDiscovered: " + peer.getNodeId());
 //            Log.d(TAG, "with info: " + new String(peer.getDiscoveryInfo()));
+
             showToast("Peer discovered");
-            transferQuest();
-            showToast(new String(peer.getDiscoveryInfo()));
+            publishQuest();
+            receiveQuestInfoFromPeer(peer);
         }
 
         @Override
@@ -114,7 +119,12 @@ public class P2pkitHandler {
 
         @Override
         public void onPeerUpdatedDiscoveryInfo(ch.uepaa.p2pkit.discovery.entity.Peer peer) {
-            Log.d(TAG, "onPeerUpdatedDiscoveryInfo: " + peer.getNodeId() + " with new info: " + new String(peer.getDiscoveryInfo()));
+            receiveQuestInfoFromPeer(peer);
+            if (peer.getDiscoveryInfo() != null) {
+                Log.d(TAG, "onPeerUpdatedDiscoveryInfo: " + peer.getNodeId() + " with new info: " + new String(peer.getDiscoveryInfo()));
+            } else {
+                Log.d(TAG, "onPeerUpdatedDiscoveryInfo: " + peer.getNodeId() + " with new empty info");
+            }
         }
 
         @Override
@@ -170,30 +180,57 @@ public class P2pkitHandler {
         toast.show();
     }
 
-    private void transferQuest() {
+    private void publishQuest() {
         DuckyDatabaseHandler dbh = DuckyDatabaseHandler.getInstance();
         RealmResults<Quest> results = dbh.getQuests();
-        Log.d(TAG, results.toString()   );
+        Log.d(TAG, "quests query result:" + results.toString());
+
+        String questInfo;
         if(!results.isEmpty()) {
-            String questText = results.first().getQuestText();
-            try {
-                byte[] questBytes = questText.getBytes("UTF8");
-                printBytes(questBytes, "utf8Bytes");
-                //transfer
-                publishP2pDiscoveryInfo(questBytes);
-            } catch (UnsupportedEncodingException e){
-                e.printStackTrace();
-            }
+            questInfo = results.last().getQuestInfo();
+        } else {
+            questInfo = "No quests";
+        }
+
+        try {
+            byte[] questBytes = questInfo.getBytes("UTF8");
+            printBytes(questBytes, "utf8Bytes");
+            //transfer
+            publishP2pDiscoveryInfo(questBytes);
+        } catch (UnsupportedEncodingException e){
+            e.printStackTrace();
         }
     }
 
     private void publishP2pDiscoveryInfo(byte[] data) {
-        Logger.i("P2PKitClient", "Publish discovery info");
+        Log.d(TAG, "Publish discovery info");
         try {
             P2PKitClient.getInstance(activity).getDiscoveryServices().setP2pDiscoveryInfo(data);
         } catch (InfoTooLongException e) {
-            Logger.e("P2PKitClient", "The discovery info is too long: " + ((data != null) ? data.length : "null") + " bytes");
+            Log.d(TAG, "The discovery info is too long: " + ((data != null) ? data.length : "null") + " bytes");
         }
     }
+
+    private void receiveQuestInfoFromPeer(ch.uepaa.p2pkit.discovery.entity.Peer peer) {
+
+        if (peer.getDiscoveryInfo() != null) {
+
+            String questInfo =  new String(peer.getDiscoveryInfo());
+
+            DuckyDatabaseHandler.getInstance().checkQuest(questInfo);
+
+            showToast("peer detected, quest created");
+
+        } else {
+
+            showToast("peer detected, no quest created");
+
+        }
+    }
+
+    public void updateDiscoveryInfo() {
+        publishQuest();
+    }
+
 
 }
