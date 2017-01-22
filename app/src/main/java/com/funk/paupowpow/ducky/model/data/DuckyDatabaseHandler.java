@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.funk.paupowpow.ducky.p2pkit.P2pkitHandler;
 
@@ -66,11 +67,13 @@ public class DuckyDatabaseHandler {
             quest.setQuestId(generateQuestId());
         } else {
             quest.setQuestId(questId);
+            showToast("quest created");
         }
 
         quest.setQuestText(questText);
         quest.setCompleted(false);
         myRealm.commitTransaction();
+
     }
 
 
@@ -81,7 +84,7 @@ public class DuckyDatabaseHandler {
     public RealmResults<Quest> getQuest(String id) {
         return myRealm
                 .where(Quest.class)
-                .equalTo("questId", "id")
+                .equalTo("questId", id)
                 .findAll();
     }
 
@@ -185,5 +188,11 @@ public class DuckyDatabaseHandler {
             Log.d("4711", "tried to check quest: " + questInfo);
         }
 
+    }
+
+    private void showToast(String text) {
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(activity, text, duration);
+        toast.show();
     }
 }

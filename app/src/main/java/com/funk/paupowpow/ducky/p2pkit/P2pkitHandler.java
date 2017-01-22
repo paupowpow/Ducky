@@ -219,12 +219,6 @@ public class P2pkitHandler {
 
             DuckyDatabaseHandler.getInstance().checkQuest(questInfo);
 
-            showToast("peer detected, quest created");
-
-        } else {
-
-            showToast("peer detected, no quest created");
-
         }
     }
 
