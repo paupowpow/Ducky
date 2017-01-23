@@ -74,5 +74,4 @@ public class DuckyFragmentManager {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         fragmentManager.popBackStack();
     }
-
 }

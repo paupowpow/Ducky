@@ -23,13 +23,17 @@ import io.realm.RealmResults;
  * Created by paulahaertel on 20.12.16.
  */
 
-public class P2pkitHandler {
+public class P2pkitHandler  {
 
     private static final String APP_KEY = DuckyConfigs.APP_KEY;
     private static final String TAG = "4711 P2pkitHandler";
 
     private static P2pkitHandler instance;
     private static Activity activity;
+
+    private boolean mShouldEnable;
+    private boolean mShouldStartP2PDiscovery;
+    private boolean mP2PServiceStarted;
 
     private P2pkitHandler(Activity activity) {
         this.activity = activity;
@@ -46,27 +50,45 @@ public class P2pkitHandler {
         return instance;
     }
 
+    public void setP2pkitState() {
+        if (DuckyDatabaseHandler.getInstance().isP2pkitStateEnabled()) {
+            enableKit();
+        } else {
+            disableKit();
+        }
+    }
 
-    public void enableKit() {
+    private void enableKit() {
 
         final StatusResult result = P2PKitClient.isP2PServicesAvailable(activity);
 
         if (result.getStatusCode() == StatusResult.SUCCESS) {
-
             P2PKitClient client = P2PKitClient.getInstance(activity);
             client.enableP2PKit(mStatusCallback, APP_KEY);
-
         } else {
             StatusResultHandling.showAlertDialogForStatusError(activity, result);
         }
+    }
+
+    private void disableKit() {
+
+        P2PKitClient client = P2PKitClient.getInstance(activity);
+        client.getDiscoveryServices().removeP2pListener(mP2pDiscoveryListener);
+
+        client.disableP2PKit();
+
+        mShouldEnable = false;
+        mShouldStartP2PDiscovery = false;
+
+        mP2PServiceStarted = false;
     }
 
     private final P2PKitStatusCallback mStatusCallback = new P2PKitStatusCallback() {
         @Override
         public void onEnabled() {
             //ready to start discovery
-            Log.d(TAG, "onEnabled()");
             startP2pDiscovery();
+            Log.d(TAG, "onEnabled()");
         }
 
         @Override
@@ -84,6 +106,7 @@ public class P2pkitHandler {
         @Override
         public void onDisabled() {
             //p2pkit has been disabled
+            stopP2pDiscovery();
             Log.d(TAG, "onDisabled()");
         }
 
@@ -225,6 +248,5 @@ public class P2pkitHandler {
     public void updateDiscoveryInfo() {
         publishQuest();
     }
-
 
 }
