@@ -1,6 +1,8 @@
 package com.funk.paupowpow.ducky.model.data;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -37,6 +39,7 @@ public class DuckyDatabaseHandler {
     public static void initialize(Activity activity) {
         if (instance == null) {
             instance = new DuckyDatabaseHandler(activity);
+
         }
     }
 
@@ -194,5 +197,22 @@ public class DuckyDatabaseHandler {
         int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(activity, text, duration);
         toast.show();
+    }
+
+    public boolean isP2pkitStateEnabled() {
+        SharedPreferences preferences = activity.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        boolean result = preferences.getBoolean("P2pkitState", true);
+        return result;
+    }
+
+    public void updateP2pkitState() {
+        SharedPreferences preferences = activity.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (isP2pkitStateEnabled()) {
+            editor.putBoolean("P2pkitState", false);
+        } else {
+            editor.putBoolean("P2pkitState", true);
+        }
+        editor.commit();
     }
 }

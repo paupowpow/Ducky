@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.funk.paupowpow.ducky.config.DuckyConfigs;
-import com.funk.paupowpow.ducky.fragments.SettingsFragment;
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
 
@@ -24,7 +23,7 @@ import io.realm.RealmResults;
  * Created by paulahaertel on 20.12.16.
  */
 
-public class P2pkitHandler implements SettingsFragment.ConsoleListener  {
+public class P2pkitHandler  {
 
     private static final String APP_KEY = DuckyConfigs.APP_KEY;
     private static final String TAG = "4711 P2pkitHandler";
@@ -51,22 +50,27 @@ public class P2pkitHandler implements SettingsFragment.ConsoleListener  {
         return instance;
     }
 
+    public void setP2pkitState() {
+        if (DuckyDatabaseHandler.getInstance().isP2pkitStateEnabled()) {
+            enableKit();
+        } else {
+            disableKit();
+        }
+    }
 
-    public void enableKit(final boolean startP2PDiscovery, P2PKitEnabledCallback p2PKitEnabledCallback) {
+    private void enableKit() {
 
         final StatusResult result = P2PKitClient.isP2PServicesAvailable(activity);
 
         if (result.getStatusCode() == StatusResult.SUCCESS) {
-
             P2PKitClient client = P2PKitClient.getInstance(activity);
             client.enableP2PKit(mStatusCallback, APP_KEY);
-
         } else {
             StatusResultHandling.showAlertDialogForStatusError(activity, result);
         }
     }
 
-    public void disableKit() {
+    private void disableKit() {
 
         P2PKitClient client = P2PKitClient.getInstance(activity);
         client.getDiscoveryServices().removeP2pListener(mP2pDiscoveryListener);
@@ -83,8 +87,8 @@ public class P2pkitHandler implements SettingsFragment.ConsoleListener  {
         @Override
         public void onEnabled() {
             //ready to start discovery
-            Log.d(TAG, "onEnabled()");
             startP2pDiscovery();
+            Log.d(TAG, "onEnabled()");
         }
 
         @Override
@@ -102,6 +106,7 @@ public class P2pkitHandler implements SettingsFragment.ConsoleListener  {
         @Override
         public void onDisabled() {
             //p2pkit has been disabled
+            stopP2pDiscovery();
             Log.d(TAG, "onDisabled()");
         }
 
@@ -243,6 +248,5 @@ public class P2pkitHandler implements SettingsFragment.ConsoleListener  {
     public void updateDiscoveryInfo() {
         publishQuest();
     }
-
 
 }

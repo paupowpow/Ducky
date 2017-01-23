@@ -12,7 +12,6 @@ import com.funk.paupowpow.ducky.fragments.DuckyFragmentManager;
 import com.funk.paupowpow.ducky.fragments.PagerAdapter;
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
-import com.funk.paupowpow.ducky.p2pkit.P2PKitEnabledCallback;
 import com.funk.paupowpow.ducky.p2pkit.P2pkitHandler;
 import com.funk.paupowpow.ducky.utils.DuckyConstants;
 import com.funk.paupowpow.ducky.utils.PermissionManager;
@@ -26,9 +25,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setupPagerAdapter();
-//        DuckyFragmentManager.initialize(this, getSupportFragmentManager());
+        DuckyFragmentManager.initialize(this, getSupportFragmentManager());
 //        DuckyFragmentManager.getInstance().startQuestOverviewFragment();
+        setupPagerAdapter();
 
         DuckyDatabaseHandler.initialize(this);
 //        Onboarding.createOnboardingQuest();
@@ -37,13 +36,7 @@ public class MainActivity extends AppCompatActivity{
 
         P2pkitHandler.initialize(this);
 
-        P2pkitHandler.getInstance().enableKit(true, new P2PKitEnabledCallback() {
-            @Override
-            public void onEnabled() {
-//                mP2pSwitch.setEnabled(true);
-//                mGeoSwitch.setEnabled(true);
-            }
-        });
+        P2pkitHandler.getInstance().setP2pkitState();
 
         pm = new PermissionManager(this);
         checkPermissions();
@@ -76,8 +69,10 @@ public class MainActivity extends AppCompatActivity{
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
+
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -97,4 +92,5 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
+
 }
