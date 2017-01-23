@@ -12,11 +12,12 @@ import com.funk.paupowpow.ducky.fragments.DuckyFragmentManager;
 import com.funk.paupowpow.ducky.fragments.PagerAdapter;
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
+import com.funk.paupowpow.ducky.p2pkit.P2PKitEnabledCallback;
 import com.funk.paupowpow.ducky.p2pkit.P2pkitHandler;
 import com.funk.paupowpow.ducky.utils.DuckyConstants;
 import com.funk.paupowpow.ducky.utils.PermissionManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private PermissionManager pm;
 
@@ -36,7 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
         P2pkitHandler.initialize(this);
 
-        P2pkitHandler.getInstance().enableKit();
+        P2pkitHandler.getInstance().enableKit(true, new P2PKitEnabledCallback() {
+            @Override
+            public void onEnabled() {
+//                mP2pSwitch.setEnabled(true);
+//                mGeoSwitch.setEnabled(true);
+            }
+        });
 
         pm = new PermissionManager(this);
         checkPermissions();

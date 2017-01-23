@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.funk.paupowpow.ducky.fragments.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Switch
+        android:text="Discovery mode"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/p2pkit_switch" />
 
 </FrameLayout>

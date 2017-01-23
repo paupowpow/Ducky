@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.funk.paupowpow.ducky.config.DuckyConfigs;
+import com.funk.paupowpow.ducky.fragments.SettingsFragment;
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
 
@@ -23,13 +24,17 @@ import io.realm.RealmResults;
  * Created by paulahaertel on 20.12.16.
  */
 
-public class P2pkitHandler {
+public class P2pkitHandler implements SettingsFragment.ConsoleListener  {
 
     private static final String APP_KEY = DuckyConfigs.APP_KEY;
     private static final String TAG = "4711 P2pkitHandler";
 
     private static P2pkitHandler instance;
     private static Activity activity;
+
+    private boolean mShouldEnable;
+    private boolean mShouldStartP2PDiscovery;
+    private boolean mP2PServiceStarted;
 
     private P2pkitHandler(Activity activity) {
         this.activity = activity;
@@ -47,7 +52,7 @@ public class P2pkitHandler {
     }
 
 
-    public void enableKit() {
+    public void enableKit(final boolean startP2PDiscovery, P2PKitEnabledCallback p2PKitEnabledCallback) {
 
         final StatusResult result = P2PKitClient.isP2PServicesAvailable(activity);
 
@@ -59,6 +64,19 @@ public class P2pkitHandler {
         } else {
             StatusResultHandling.showAlertDialogForStatusError(activity, result);
         }
+    }
+
+    public void disableKit() {
+
+        P2PKitClient client = P2PKitClient.getInstance(activity);
+        client.getDiscoveryServices().removeP2pListener(mP2pDiscoveryListener);
+
+        client.disableP2PKit();
+
+        mShouldEnable = false;
+        mShouldStartP2PDiscovery = false;
+
+        mP2PServiceStarted = false;
     }
 
     private final P2PKitStatusCallback mStatusCallback = new P2PKitStatusCallback() {
