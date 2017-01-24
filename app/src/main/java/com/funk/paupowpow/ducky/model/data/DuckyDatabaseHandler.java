@@ -62,7 +62,7 @@ public class DuckyDatabaseHandler {
         return myRealm;
     }
 
-    public void createQuest(String questText, @Nullable String questId) {
+    public void createQuest(String questText, @Nullable String questId, @Nullable Integer hopCount) {
         myRealm.beginTransaction();
         Quest quest = myRealm.createObject(Quest.class);
 
@@ -71,6 +71,12 @@ public class DuckyDatabaseHandler {
         } else {
             quest.setQuestId(questId);
             showToast("quest created");
+        }
+
+        if(hopCount == null) {
+            quest.setHopCounter(0);
+        } else {
+            quest.setHopCounter(hopCount + 1);
         }
 
         quest.setQuestText(questText);
@@ -168,23 +174,31 @@ public class DuckyDatabaseHandler {
         //parts[1] should be questId
         //createQuest(String questText, @Nullable String questId)
 
-        String separator = "!@#$";
+        String separatorA = "!@#$";
+        String separatorB = "$#@!";
 
-        if(questInfo.contains(separator)) {
-            int questTextStop = questInfo.indexOf(separator);
+        if(questInfo.contains(separatorA) && questInfo.contains(separatorB)) {
+
+            int questTextStop = questInfo.indexOf(separatorA);
             String questText = questInfo.substring(0, questTextStop);
-            int questIdStart = questTextStop + separator.length();
 
-            String questId = "";
-            if(questInfo.length() >= questIdStart) {
-                questId = questInfo.substring(questIdStart, questInfo.length() - 1);
+            int questIdStart = questTextStop + separatorA.length();
+            int questIdStop = questInfo.indexOf(separatorB);
+            String questId = questInfo.substring(questIdStart, questIdStop);
+
+            int hopCountStart = questIdStop + separatorB.length();
+            String hopCountString = "";
+            int hopCount = 0;
+            if(questInfo.length() >= hopCountStart) {
+                hopCountString = questInfo.substring(hopCountStart, questInfo.length() - 1);
+                hopCount = Integer.parseInt(hopCountString);
             }
 
             if(getQuest(questId).isEmpty()) {
                 if(questId == "") {
-                    createQuest(questText, null);
+                    createQuest(questText, null, null);
                 } else {
-                    createQuest(questText, questId);
+                    createQuest(questText, questId, hopCount);
                 }
             }
         } else {

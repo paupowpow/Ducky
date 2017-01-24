@@ -7,13 +7,6 @@
     android:background="@color/colorPrimaryLight"
     android:clickable="true">
 
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
-
     <Button
         android:id="@+id/quest_create_button"
         android:layout_width="match_parent"

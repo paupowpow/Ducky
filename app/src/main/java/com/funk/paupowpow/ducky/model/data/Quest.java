@@ -15,6 +15,8 @@ public class Quest extends RealmObject {
 
     private Boolean isCompleted;
 
+    private int hopCounter;
+
     public Boolean getCompleted() {
         return isCompleted;
     }
@@ -40,6 +42,14 @@ public class Quest extends RealmObject {
     }
 
     public String getQuestInfo() {
-        return questText + "!@#$" + questId;
+        return questText + "!@#$" + questId + "$#@!" + hopCounter;
+    }
+
+    public int getHopCounter() {
+        return hopCounter;
+    }
+
+    public void setHopCounter(int hopCounter) {
+        this.hopCounter = hopCounter;
     }
 }
