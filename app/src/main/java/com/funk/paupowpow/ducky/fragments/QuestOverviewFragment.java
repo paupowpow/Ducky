@@ -1,8 +1,12 @@
 package com.funk.paupowpow.ducky.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +34,13 @@ public class QuestOverviewFragment extends Fragment {
 
     private Context context;
     private QuestOverviewListAdapter adapter;
+
+    private BroadcastReceiver dbChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     public QuestOverviewFragment() {
         // Required empty public constructor
@@ -61,6 +72,8 @@ public class QuestOverviewFragment extends Fragment {
 
         setupCreateButton();
 
+        setupDBChangeReceiver();
+
         return view;
     }
 
@@ -72,6 +85,12 @@ public class QuestOverviewFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(dbChangeReceiver);
     }
 
     @Override
@@ -110,4 +129,7 @@ public class QuestOverviewFragment extends Fragment {
         });
     }
 
+    private void setupDBChangeReceiver() {
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(dbChangeReceiver, new IntentFilter("dbChange"));
+    }
 }

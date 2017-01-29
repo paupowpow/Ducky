@@ -2,12 +2,14 @@ package com.funk.paupowpow.ducky.model.data;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -81,6 +83,8 @@ public class DuckyDatabaseHandler {
         quest.setQuestText(questText);
         quest.setCompleted(false);
         myRealm.commitTransaction();
+
+        broadcastDBChange();
 
     }
 
@@ -230,5 +234,11 @@ public class DuckyDatabaseHandler {
             editor.putBoolean("P2pkitState", true);
         }
         editor.commit();
+    }
+
+    private void broadcastDBChange() {
+        // QuestOverviewFragement#dbChangeReceiver listens to this
+        Intent intent = new Intent("dbChange");
+        LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
     }
 }
