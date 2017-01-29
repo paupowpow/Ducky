@@ -23,12 +23,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
 //                shouldn't this be done by the DuckyFragmentManager?
-                QuestOverviewFragment tab1 = new QuestOverviewFragment();
-                return tab1;
-            case 1:
-//                shouldn't this be done by the DuckyFragmentManager?
                 SettingsFragment tab2 = new SettingsFragment();
                 return tab2;
+            case 1:
+//                shouldn't this be done by the DuckyFragmentManager?
+                QuestOverviewFragment tab1 = new QuestOverviewFragment();
+                return tab1;
             case 2:
 //                shouldn't this be done by the DuckyFragmentManager?
                 NotificationsFragment tab3 = new NotificationsFragment();

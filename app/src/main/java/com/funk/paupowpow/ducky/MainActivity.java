@@ -63,9 +63,9 @@ public class MainActivity extends AppCompatActivity{
 
     private void setupPagerAdapter() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        tabLayout.addTab(tabLayout.newTab().setText("settings"));
+        tabLayout.addTab(tabLayout.newTab().setText("quests"));
+        tabLayout.addTab(tabLayout.newTab().setText("notifications"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
