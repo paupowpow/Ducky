@@ -192,7 +192,7 @@ public class DuckyDatabaseHandler {
             String hopCountString = "";
             int hopCount = 0;
             if(questInfo.length() >= hopCountStart) {
-                hopCountString = questInfo.substring(hopCountStart, questInfo.length() - 1);
+                hopCountString = questInfo.substring(hopCountStart, questInfo.length());
                 hopCount = Integer.parseInt(hopCountString);
             }
 
