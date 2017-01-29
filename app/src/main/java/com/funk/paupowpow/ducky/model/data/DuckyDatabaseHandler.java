@@ -53,6 +53,8 @@ public class DuckyDatabaseHandler {
         Realm.setDefaultConfiguration(defaultConfiguration);
         myRealm = Realm.getInstance(defaultConfiguration);
         this.activity = activity;
+
+        checkOnboardingQuests();
     }
 
     public static DuckyDatabaseHandler getInstance() {
@@ -234,6 +236,34 @@ public class DuckyDatabaseHandler {
             editor.putBoolean("P2pkitState", true);
         }
         editor.commit();
+    }
+
+    public boolean didGiveOnboardingQuests() {
+        SharedPreferences preferences = activity.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        boolean result = preferences.getBoolean("OnboardingQuestsState", false);
+        return result;
+    }
+
+    public void setOnboardingQuestsState(boolean state) {
+        SharedPreferences preferences = activity.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("OnboardingQuestsState", state);
+        editor.commit();
+    }
+
+    private void checkOnboardingQuests() {
+        if (!didGiveOnboardingQuests()) {
+            createOnboardingQuests();
+            setOnboardingQuestsState(true);
+        }
+    }
+
+    private void createOnboardingQuests() {
+        createQuest("something yellow", null, null);
+        createQuest("the leaf of a tree", null, null);
+        createQuest("your name on a piece of paper", null, null);
+        createQuest("a smile", null, null);
+        createQuest("something old", null, null);
     }
 
     private void broadcastDBChange() {
