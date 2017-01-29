@@ -84,9 +84,12 @@ public class DuckyDatabaseHandler {
 
     }
 
-
     public RealmResults<Quest> getQuests() {
         return myRealm.where(Quest.class).findAll();
+    }
+
+    public RealmResults<Quest> getCompletedQuests() {
+        return myRealm.where(Quest.class).equalTo("isCompleted", true).findAll();
     }
 
     public RealmResults<Quest> getQuest(String id) {
