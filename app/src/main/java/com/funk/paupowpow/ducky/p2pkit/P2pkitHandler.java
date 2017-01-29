@@ -9,6 +9,7 @@ import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Random;
 
 import ch.uepaa.p2pkit.P2PKitClient;
 import ch.uepaa.p2pkit.P2PKitStatusCallback;
@@ -34,6 +35,9 @@ public class P2pkitHandler  {
     private boolean mShouldEnable;
     private boolean mShouldStartP2PDiscovery;
     private boolean mP2PServiceStarted;
+
+    // initialized once with the P2pkitHandler
+    private Random random = new Random();
 
     private P2pkitHandler(Activity activity) {
         this.activity = activity;
@@ -208,7 +212,14 @@ public class P2pkitHandler  {
         RealmResults<Quest> results = dbh.getCompletedQuests();
         String questInfo;
         if(!results.isEmpty()) {
-            questInfo = results.last().getQuestInfo();
+            // questInfo = results.last().getQuestInfo();
+
+            int size = results.size();
+
+            int randomPosition = randomInt(0, size - 1);
+
+            questInfo = results.get(randomPosition).getQuestInfo();
+
             try {
                 byte[] questBytes = questInfo.getBytes("UTF8");
                 printBytes(questBytes, "utf8Bytes");
@@ -238,6 +249,13 @@ public class P2pkitHandler  {
 
     public void updateDiscoveryInfo() {
         publishQuest();
+    }
+
+    // returns int between min and max, inclusive
+    private int randomInt(int min, int max) {
+        int randomNumber = random.nextInt((max - min) + 1) + min;
+        Log.d(TAG, "random number: " + randomNumber);
+        return randomNumber;
     }
 
 }
