@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.funk.paupowpow.ducky.R;
 import com.funk.paupowpow.ducky.adapter.QuestOverviewListAdapter;
@@ -23,6 +24,9 @@ public class QuestOverviewFragment extends Fragment {
 
     @Bind(R.id.quest_list)
     RecyclerView questList;
+
+    @Bind(R.id.quest_create_button)
+    Button createQuestButton;
 
     private Context context;
     private QuestOverviewListAdapter adapter;
@@ -55,6 +59,8 @@ public class QuestOverviewFragment extends Fragment {
 
         setRealmAdapter(DuckyDatabaseHandler.getInstance().getQuests());
 
+        setupCreateButton();
+
         return view;
     }
 
@@ -66,6 +72,12 @@ public class QuestOverviewFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     private void setupRecycler() {
@@ -87,4 +99,15 @@ public class QuestOverviewFragment extends Fragment {
         adapter.setRealmAdapter(realmQuestAdapter);
         adapter.notifyDataSetChanged();
     }
+
+    private void setupCreateButton() {
+        createQuestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // open fragment with fragment manager
+                DuckyFragmentManager.getInstance().startQuestCreateFragment();
+            }
+        });
+    }
+
 }

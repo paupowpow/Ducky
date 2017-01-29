@@ -1,11 +1,12 @@
 package com.funk.paupowpow.ducky.controller;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.funk.paupowpow.ducky.R;
+import com.funk.paupowpow.ducky.camera.CameraHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
 
 import butterknife.Bind;
@@ -23,6 +24,12 @@ public class QuestOverviewItemViewController {
     @Bind(R.id.quest_overview_item_text)
     TextView questText;
 
+    @Bind(R.id.quest_overview_item_status)
+    TextView questStatus;
+
+    @Bind(R.id.quest_overview_item_button)
+    Button snapButton;
+
     public QuestOverviewItemViewController(View itemView, Activity activity) {
         this.itemView = itemView;
         this.activity = activity;
@@ -30,11 +37,24 @@ public class QuestOverviewItemViewController {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bindData(Quest quest) {
-        this.quest = quest;
-        this.questText.setText(quest.getQuestText());
+    public void bindData(Quest aQuest) {
+        quest = aQuest;
+        questText.setText(quest.getQuestText());
 
-        Log.d("QUEST", "" + quest.getQuestText());
+        questStatus.setText(quest.getCompleted().toString());
+
+//        quest completed -> disable button
+//        quest not completed -> set onClickListener
+        if(quest.getCompleted() == true) {
+            snapButton.setEnabled(false);
+        } else {
+            snapButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CameraHandler.getInstance().openCamera(quest);
+                }
+            });
+        }
     }
 
     public void onViewRecycled() {
@@ -46,4 +66,5 @@ public class QuestOverviewItemViewController {
 
     public void onViewDetachedFromWindow() {
     }
+
 }

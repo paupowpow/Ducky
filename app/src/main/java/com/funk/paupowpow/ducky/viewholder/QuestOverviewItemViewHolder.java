@@ -5,7 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.funk.paupowpow.ducky.controller.QuestOverviewItemViewController;
+import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by paulahaertel on 10.12.16.
@@ -39,4 +43,7 @@ public class QuestOverviewItemViewHolder extends RecyclerView.ViewHolder {
     public void onViewDetachedFromWindow() {
         viewController.onViewDetachedFromWindow();
     }
+
+
+
 }

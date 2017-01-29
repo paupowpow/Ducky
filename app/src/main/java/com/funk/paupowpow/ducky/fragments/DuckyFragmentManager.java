@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.funk.paupowpow.ducky.R;
+import com.funk.paupowpow.ducky.model.data.Quest;
 
 /**
  * Created by paulahaertel on 10.12.16.
@@ -34,19 +35,43 @@ public class DuckyFragmentManager {
     }
 
     private void safeCommitTransaction(FragmentTransaction transaction) {
-
         try {
             transaction.commit();
-        } catch( IllegalStateException e ) {
-            Log.e("DuckyFragmentManager", "Error in FragmentTransaction");
+        } catch(IllegalStateException e) {
+            Log.e("DuckyFragmentManager", "Error in FragmentTransaction: " + e.getMessage());
         }
     }
 
     public void startQuestOverviewFragment() {
         QuestOverviewFragment questOverviewFragment = QuestOverviewFragment.newInstance();
-        FragmentTransaction ft = manager.beginTransaction();
-        // instead of ft.commit(...)
-        ft.add(FRAGMENT_CONTAINER_ID, questOverviewFragment);
-        safeCommitTransaction(ft);
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questOverviewFragment);
+        fragmentTransaction.addToBackStack(null);
+//        int count = manager.getBackStackEntryCount();
+        safeCommitTransaction(fragmentTransaction);
+    }
+
+    public void startQuestDetailFragment(Quest quest) {
+        QuestDetailFragment questDetailFragment = QuestDetailFragment.newInstance(quest);
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questDetailFragment);
+        fragmentTransaction.addToBackStack(null);
+//        int count = manager.getBackStackEntryCount();
+        safeCommitTransaction(fragmentTransaction);
+    }
+
+    public void startQuestCreateFragment() {
+        QuestCreateFragment questCreateFragment = QuestCreateFragment.newInstance();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(FRAGMENT_CONTAINER_ID, questCreateFragment);
+        fragmentTransaction.addToBackStack(null);
+        int count = manager.getBackStackEntryCount();
+        Log.d("HEY", String.valueOf(count));
+        safeCommitTransaction(fragmentTransaction);
+    }
+
+    public void popFragment() {
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        fragmentManager.popBackStack();
     }
 }
