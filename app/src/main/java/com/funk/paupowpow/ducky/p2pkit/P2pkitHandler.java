@@ -235,13 +235,9 @@ public class P2pkitHandler  {
     }
 
     private void receiveQuestInfoFromPeer(ch.uepaa.p2pkit.discovery.entity.Peer peer) {
-
         if (peer.getDiscoveryInfo() != null) {
-
             String questInfo =  new String(peer.getDiscoveryInfo());
-
             DuckyDatabaseHandler.getInstance().checkQuest(questInfo);
-
         }
     }
 

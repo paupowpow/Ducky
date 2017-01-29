@@ -39,7 +39,6 @@ public class DuckyDatabaseHandler {
     public static void initialize(Activity activity) {
         if (instance == null) {
             instance = new DuckyDatabaseHandler(activity);
-
         }
     }
 
