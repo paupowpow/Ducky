@@ -31,6 +31,15 @@ public class QuestCreateFragment extends Fragment {
     @Bind(R.id.quest_submit_button)
     Button submitQuestButton;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_quest_create, container, false);
+        ButterKnife.bind(this, view);
+        setupSubmitButton();
+        return view;
+    }
+
     public static QuestCreateFragment newInstance() {
         QuestCreateFragment fragment = new QuestCreateFragment();
         controller = new QuestCreateViewController();
@@ -45,14 +54,6 @@ public class QuestCreateFragment extends Fragment {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_quest_create, container, false);
-        ButterKnife.bind(this, view);
-        setupSubmitButton();
-        return view;
-    }
 
     @Override
     public void onAttach(Context context) {

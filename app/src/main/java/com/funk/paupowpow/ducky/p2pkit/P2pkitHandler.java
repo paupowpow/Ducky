@@ -205,23 +205,18 @@ public class P2pkitHandler  {
 
     private void publishQuest() {
         DuckyDatabaseHandler dbh = DuckyDatabaseHandler.getInstance();
-        RealmResults<Quest> results = dbh.getQuests();
-        Log.d(TAG, "quests query result:" + results.toString());
-
+        RealmResults<Quest> results = dbh.getCompletedQuests();
         String questInfo;
         if(!results.isEmpty()) {
             questInfo = results.last().getQuestInfo();
-        } else {
-            questInfo = "No quests";
-        }
-
-        try {
-            byte[] questBytes = questInfo.getBytes("UTF8");
-            printBytes(questBytes, "utf8Bytes");
-            //transfer
-            publishP2pDiscoveryInfo(questBytes);
-        } catch (UnsupportedEncodingException e){
-            e.printStackTrace();
+            try {
+                byte[] questBytes = questInfo.getBytes("UTF8");
+                printBytes(questBytes, "utf8Bytes");
+                //transfer
+                publishP2pDiscoveryInfo(questBytes);
+            } catch (UnsupportedEncodingException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -235,13 +230,9 @@ public class P2pkitHandler  {
     }
 
     private void receiveQuestInfoFromPeer(ch.uepaa.p2pkit.discovery.entity.Peer peer) {
-
         if (peer.getDiscoveryInfo() != null) {
-
             String questInfo =  new String(peer.getDiscoveryInfo());
-
             DuckyDatabaseHandler.getInstance().checkQuest(questInfo);
-
         }
     }
 

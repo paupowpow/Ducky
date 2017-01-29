@@ -6,6 +6,7 @@
     android:clickable="true">
 
     <EditText
+        android:paddingTop="100dp"
         android:id="@+id/quest_create_input_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -9,6 +9,6 @@ import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 public class QuestCreateViewController {
 
     public void createQuest(String questText) {
-        DuckyDatabaseHandler.getInstance().createQuest(questText, null);
+        DuckyDatabaseHandler.getInstance().createQuest(questText, null, null);
     }
 }
