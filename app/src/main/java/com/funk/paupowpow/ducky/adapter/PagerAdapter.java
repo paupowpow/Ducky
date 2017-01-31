@@ -1,8 +1,12 @@
-package com.funk.paupowpow.ducky.fragments;
+package com.funk.paupowpow.ducky.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.funk.paupowpow.ducky.fragments.NotificationsFragment;
+import com.funk.paupowpow.ducky.fragments.QuestOverviewFragment;
+import com.funk.paupowpow.ducky.fragments.SettingsFragment;
 
 /**
  * Created by paulahaertel on 22.01.17.

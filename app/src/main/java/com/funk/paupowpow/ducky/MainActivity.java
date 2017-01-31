@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.funk.paupowpow.ducky.camera.CameraHandler;
 import com.funk.paupowpow.ducky.fragments.DuckyFragmentManager;
-import com.funk.paupowpow.ducky.fragments.PagerAdapter;
+import com.funk.paupowpow.ducky.adapter.PagerAdapter;
 import com.funk.paupowpow.ducky.model.data.DuckyDatabaseHandler;
 import com.funk.paupowpow.ducky.model.data.Quest;
 import com.funk.paupowpow.ducky.p2pkit.P2pkitHandler;
