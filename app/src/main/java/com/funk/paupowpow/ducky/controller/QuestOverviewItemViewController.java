@@ -2,7 +2,7 @@ package com.funk.paupowpow.ducky.controller;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.funk.paupowpow.ducky.R;
@@ -24,11 +24,8 @@ public class QuestOverviewItemViewController {
     @Bind(R.id.quest_overview_item_text)
     TextView questText;
 
-    @Bind(R.id.quest_overview_item_status)
-    TextView questStatus;
-
     @Bind(R.id.quest_overview_item_button)
-    Button snapButton;
+    ImageButton snapButton;
 
     public QuestOverviewItemViewController(View itemView, Activity activity) {
         this.itemView = itemView;
@@ -40,8 +37,6 @@ public class QuestOverviewItemViewController {
     public void bindData(Quest aQuest) {
         quest = aQuest;
         questText.setText(quest.getQuestText());
-
-        questStatus.setText(quest.getCompleted().toString());
 
 //        quest completed -> disable button
 //        quest not completed -> set onClickListener
