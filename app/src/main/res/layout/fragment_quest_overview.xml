@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.funk.paupowpow.ducky.fragments.QuestOverviewFragment"
+    tools:context="com.funk.paupowpow.fotohop.fragments.QuestOverviewFragment"
     android:background="@color/transparent"
     android:clickable="true">
 

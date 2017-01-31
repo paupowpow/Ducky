@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.funk.paupowpow.ducky">
+    package="com.funk.paupowpow.fotohop">
 
     <!-- android:required="true" because app requires a camera in order to function -->
     <uses-feature android:name="android.hardware.camera"
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.funk.paupowpow.fotohop.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <provider
-            android:authorities="com.funk.paupowpow.ducky"
+            android:authorities="com.funk.paupowpow.fotohop"
             android:name="android.support.v4.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
