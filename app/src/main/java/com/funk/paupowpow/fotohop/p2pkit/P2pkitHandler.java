@@ -223,7 +223,6 @@ public class P2pkitHandler  {
             try {
                 byte[] questBytes = questInfo.getBytes("UTF8");
                 printBytes(questBytes, "utf8Bytes");
-                //transfer
                 publishP2pDiscoveryInfo(questBytes);
             } catch (UnsupportedEncodingException e){
                 e.printStackTrace();
