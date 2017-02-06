@@ -1,6 +1,8 @@
 # fotohop
 peer-to-peer photography quests
 
+![](https://github.com/paupowpow/fotohop/blob/master/app/src/main/res/mipmap-xxxhdpi/fotohopicon.png)
+
 ## install (Android)
 * download the P2P Services app from Google Play: [link](https://play.google.com/store/apps/details?id=ch.uepaa.p2pservices)
 * download the source code and open it as a project in Android Studio
