@@ -26,15 +26,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-//                shouldn't this be done by the FotohopFragmentManager?
                 SettingsFragment tab2 = new SettingsFragment();
                 return tab2;
             case 1:
-//                shouldn't this be done by the FotohopFragmentManager?
                 QuestOverviewFragment tab1 = new QuestOverviewFragment();
                 return tab1;
             case 2:
-//                shouldn't this be done by the FotohopFragmentManager?
                 NotificationsFragment tab3 = new NotificationsFragment();
                 return tab3;
             default:
